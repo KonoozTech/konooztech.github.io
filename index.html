@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konooz Tech - Empower • Innovate • Thrive</title>
+    <meta name="description" content="Insights on Oracle HCM, project management, HR technology, and emerging innovations from Konooz Tech.">
+    <title>Blog - Konooz Tech</title>
     <style>
         * {
             margin: 0;
@@ -11,398 +12,592 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-color: #FF9933;
+            --secondary-color: #00D4FF;
+            --dark-bg: #0A0E27;
+            --dark-bg-light: #1a1f3a;
+            --text-light: #ffffff;
+            --text-gray: #b0b8c8;
+            --accent-gradient: linear-gradient(135deg, #FF9933 0%, #FFB366 100%);
+            --section-padding: 80px 20px;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: var(--text-light);
+            background: var(--dark-bg);
         }
 
-        .header {
-            background: linear-gradient(135deg, #1a2847 0%, #2d4a7c 100%);
-            color: white;
-            padding: 2rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        /* Navigation */
+        nav {
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
         }
 
-        .container {
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .logo-section {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .logo-section img {
-            max-width: 300px;
-            height: auto;
-        }
-
-        nav {
-            background: rgba(255,255,255,0.1);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        nav ul {
-            list-style: none;
+            padding: 0 20px;
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        nav a {
-            color: white;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
             text-decoration: none;
-            font-weight: 500;
             transition: color 0.3s;
         }
 
-        nav a:hover {
-            color: #ffc107;
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
         }
 
-        .hero {
-            background: linear-gradient(135deg, #f8b500 0%, #ffc107 100%);
-            padding: 4rem 2rem;
+        /* Page Header */
+        .page-header {
+            padding: 100px 20px 60px;
             text-align: center;
+            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
         }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            color: #1a2847;
-            margin-bottom: 1rem;
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: #2d4a7c;
-            margin-bottom: 2rem;
+        .page-header h1 span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .cta-button {
-            display: inline-block;
-            background: #1a2847;
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .services {
-            padding: 4rem 2rem;
-            background: #f5f5f5;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            color: #1a2847;
-            margin-bottom: 3rem;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
+        .page-header p {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            max-width: 800px;
             margin: 0 auto;
         }
 
-        .service-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+        /* Blog Section */
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--section-padding);
         }
 
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
-
-        .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .service-card h3 {
-            color: #1a2847;
-            margin-bottom: 1rem;
-        }
-
-        .expertise {
-            padding: 4rem 2rem;
-            background: white;
-        }
-
-        .expertise-list {
+        /* Category Filter */
+        .category-filter {
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
             justify-content: center;
-            max-width: 1000px;
-            margin: 2rem auto;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
         }
 
-        .expertise-tag {
-            background: #2d4a7c;
-            color: white;
-            padding: 0.5rem 1rem;
+        .category-btn {
+            padding: 10px 25px;
+            background: var(--dark-bg-light);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Featured Post */
+        .featured-post {
+            background: var(--dark-bg-light);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .featured-image {
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .featured-content {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: var(--dark-bg);
+            padding: 5px 15px;
             border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            width: fit-content;
+        }
+
+        .featured-content h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .featured-content h2 a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .featured-content h2 a:hover {
+            color: var(--primary-color);
+        }
+
+        .post-meta {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .post-excerpt {
+            color: var(--text-gray);
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .read-more {
+            display: inline-block;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .read-more:hover {
+            transform: translateX(5px);
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-card {
+            background: var(--dark-bg-light);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .blog-card-image {
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.15) 0%, rgba(0, 212, 255, 0.15) 100%);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .blog-card-content {
+            padding: 30px;
+        }
+
+        .blog-category {
+            display: inline-block;
+            color: var(--secondary-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .blog-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .blog-card h3 a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .blog-card h3 a:hover {
+            color: var(--primary-color);
+        }
+
+        .blog-card p {
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        /* Newsletter CTA */
+        .newsletter-cta {
+            background: linear-gradient(135deg, #1a1f3a 0%, #0A0E27 100%);
+            padding: 60px 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .newsletter-cta h2 {
+            margin-bottom: 15px;
+        }
+
+        .newsletter-cta p {
+            color: var(--text-gray);
+            margin-bottom: 30px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            background: var(--dark-bg);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            padding: 15px 35px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 8px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 153, 51, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-bg-light);
+            padding: 60px 20px 20px;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: var(--text-gray);
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            color: var(--text-gray);
             font-size: 0.9rem;
         }
 
-        .about {
-            padding: 4rem 2rem;
-            background: #f5f5f5;
-        }
-
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .contact {
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, #1a2847 0%, #2d4a7c 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 2rem auto;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: none;
-            border-radius: 5px;
-            font-family: inherit;
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .submit-button {
-            background: #ffc107;
-            color: #1a2847;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .submit-button:hover {
-            transform: scale(1.05);
-        }
-
-        .footer {
-            background: #1a2847;
-            color: white;
-            text-align: center;
-            padding: 2rem;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 1.8rem;
+            .page-header h1 {
+                font-size: 2rem;
             }
 
-            nav ul {
-                flex-direction: column;
-                gap: 1rem;
+            .nav-links {
+                display: none;
             }
 
-            .services-grid {
+            .featured-post {
                 grid-template-columns: 1fr;
+            }
+
+            .featured-content {
+                padding: 30px;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="logo-section">
-                <h1 style="color: #ffc107; font-size: 3rem; margin-bottom: 0.5rem;">KONOOZ TECH</h1>
-                <p style="font-size: 1.2rem; letter-spacing: 2px;">Empower • Innovate • Thrive</p>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="Konooz Tech Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><span>Insights</span> & Resources</h1>
+        <p>Expert perspectives on Oracle HCM, project management, HR technology, and emerging innovations</p>
+    </div>
+
+    <!-- Blog Container -->
+    <div class="blog-container">
+        <!-- Category Filter -->
+        <div class="category-filter">
+            <a href="#" class="category-btn active">All Posts</a>
+            <a href="#" class="category-btn">Oracle HCM</a>
+            <a href="#" class="category-btn">Project Management</a>
+            <a href="#" class="category-btn">HR Strategy</a>
+            <a href="#" class="category-btn">Integration</a>
+            <a href="#" class="category-btn">AI & Innovation</a>
+        </div>
+
+        <!-- Featured Post -->
+        <article class="featured-post">
+            <div class="featured-image">🚀</div>
+            <div class="featured-content">
+                <span class="featured-badge">FEATURED</span>
+                <h2><a href="blog-post.html">The Triple Excellence Framework: Why Most HCM Implementations Need More Than Technical Expertise</a></h2>
+                <div class="post-meta">October 10, 2025 • 8 min read</div>
+                <p class="post-excerpt">After leading dozens of Oracle HCM implementations, I've observed a critical pattern: technical expertise alone isn't enough. Discover why successful transformations require the convergence of Oracle mastery, project management discipline, and HR strategic thinking.</p>
+                <a href="blog-post.html" class="read-more">Read Full Article →</a>
             </div>
-            <nav>
+        </article>
+
+        <!-- Blog Grid -->
+        <div class="blog-grid">
+            <article class="blog-card">
+                <div class="blog-card-image">🔗</div>
+                <div class="blog-card-content">
+                    <span class="blog-category">Integration</span>
+                    <h3><a href="blog-post.html">5 Common Oracle HCM Integration Pitfalls and How to Avoid Them</a></h3>
+                    <div class="post-meta">October 5, 2025 • 6 min read</div>
+                    <p>Integration failures can derail even the most well-planned HCM implementations. Learn from real-world experiences about the most common mistakes and proven strategies to ensure seamless connectivity.</p>
+                    <a href="blog-post.html" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-card-image">📊</div>
+                <div class="blog-card-content">
+                    <span class="blog-category">Project Management</span>
+                    <h3><a href="blog-post.html">Agile Meets PMBOK: A Hybrid Approach for HCM Projects</a></h3>
+                    <div class="post-meta">September 28, 2025 • 7 min read</div>
+                    <p>HCM implementations benefit from both Agile flexibility and PMBOK structure. Discover how to create a hybrid methodology that delivers the best of both worlds.</p>
+                    <a href="blog-post.html" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-card-image">🤖</div>
+                <div class="blog-card-content">
+                    <span class="blog-category">AI & Innovation</span>
+                    <h3><a href="blog-post.html">AI in HR: Separating Hype from Reality in 2025</a></h3>
+                    <div class="post-meta">September 20, 2025 • 10 min read</div>
+                    <p>AI promises to revolutionize HR, but what's actually possible today? An honest assessment of current AI capabilities in HCM and practical applications you can implement now.</p>
+                    <a href="blog-post.html" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-card-image">✅</div>
+                <div class="blog-card-content">
+                    <span class="blog-category">Oracle HCM</span>
+                    <h3><a href="blog-post.html">Oracle Fusion HCM: Core HR Configuration Best Practices</a></h3>
+                    <div class="post-meta">September 12, 2025 • 9 min read</div>
+                    <p>A comprehensive guide to configuring Core HR in Oracle Fusion HCM, including organizational hierarchies, legal entities, and workforce structures that scale.</p>
+                    <a href="blog-post.html" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-card-image">👥</div>
+                <div class="blog-card-content">
+                    <span class="blog-category">HR Strategy</span>
+                    <h3><a href="blog-post.html">Change Management: The Hidden Success Factor in HCM Implementations</a></h3>
+                    <div class="post-meta">September 5, 2025 • 8 min read</div>
+                    <p>Technology is only half the equation. Learn how to drive user adoption and organizational change to ensure your HCM investment delivers real business value.</p>
+                    <a href="blog-post.html" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-card-image">⚡</div>
+                <div class="blog-card-content">
+                    <span class="blog-category">Oracle HCM</span>
+                    <h3><a href="blog-post.html">Performance Optimization: Making Oracle HCM Lightning Fast</a></h3>
+                    <div class="post-meta">August 28, 2025 • 7 min read</div>
+                    <p>Slow system performance kills user adoption. Practical techniques for optimizing Oracle HCM Cloud performance, from queries to page load times.</p>
+                    <a href="blog-post.html" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-card-image">🎯</div>
+                <div class="blog-card-content">
+                    <span class="blog-category">Project Management</span>
+                    <h3><a href="blog-post.html">Stakeholder Management in Enterprise HCM Projects</a></h3>
+                    <div class="post-meta">August 20, 2025 • 6 min read</div>
+                    <p>Managing diverse stakeholders—from C-suite to end users—is critical for HCM success. Proven strategies for communication, expectation management, and buy-in.</p>
+                    <a href="blog-post.html" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-card-image">🔐</div>
+                <div class="blog-card-content">
+                    <span class="blog-category">HR Strategy</span>
+                    <h3><a href="blog-post.html">Data Privacy and Compliance in Global HCM Systems</a></h3>
+                    <div class="post-meta">August 15, 2025 • 9 min read</div>
+                    <p>Navigate GDPR, local labor laws, and data residency requirements while maintaining a unified HCM platform across multiple countries and jurisdictions.</p>
+                    <a href="blog-post.html" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <div class="blog-card-image">🛠️</div>
+                <div class="blog-card-content">
+                    <span class="blog-category">Oracle HCM</span>
+                    <h3><a href="blog-post.html">Oracle APEX for HCM: Building Custom Extensions</a></h3>
+                    <div class="post-meta">August 8, 2025 • 10 min read</div>
+                    <p>Extend Oracle HCM functionality with custom APEX applications. A technical guide to building seamless extensions that complement your core HCM system.</p>
+                    <a href="blog-post.html" class="read-more">Read More →</a>
+                </div>
+            </article>
+        </div>
+
+        <!-- Newsletter CTA -->
+        <div class="newsletter-cta">
+            <h2>Stay <span style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Updated</span></h2>
+            <p>Get monthly insights on HCM excellence, implementation strategies, and emerging HR technologies delivered to your inbox.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="logo.png" alt="Konooz Tech" style="max-width: 150px; margin-bottom: 15px;">
+                <p style="color: var(--text-gray);">Transforming HCM implementations through technical excellence, project discipline, and HR strategic thinking.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#expertise">Expertise</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
-            </nav>
-        </div>
-    </header>
-
-    <section id="home" class="hero">
-        <div class="container">
-            <h1>Technology Insights & Professional Consulting</h1>
-            <p>Your trusted partner for Oracle Solutions, Cloud Technologies, AI Tools & Project Management Excellence</p>
-            <a href="#contact" class="cta-button">Get Started</a>
-        </div>
-    </section>
-
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title">Our Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">☁️</div>
-                    <h3>Cloud Solutions</h3>
-                    <p>Expert consulting in Oracle OCI and AWS Cloud infrastructure, migration strategies, and optimization.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🤖</div>
-                    <h3>AI & Emerging Tech</h3>
-                    <p>Stay ahead with insights on AI tools, automation, and cutting-edge technologies for business transformation.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">💼</div>
-                    <h3>Oracle HCM Solutions</h3>
-                    <p>Comprehensive Oracle Fusion HCM implementation, customization, and optimization services.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🛠️</div>
-                    <h3>Technical Development</h3>
-                    <p>Custom applications using Oracle APEX, Visual Builder, SQL/PLSQL, and modern web technologies.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">📊</div>
-                    <h3>Project Management</h3>
-                    <p>PMP-certified expertise in Agile and traditional project management methodologies.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">👥</div>
-                    <h3>HRIS Best Practices</h3>
-                    <p>SHRM-CP certified guidance on HR systems, processes, and workforce optimization strategies.</p>
-                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+                    <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                    <li><a href="mailto:contact@konooz.com">Email</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#">Oracle HCM</a></li>
+                    <li><a href="#">Project Management</a></li>
+                    <li><a href="#">HR Strategy</a></li>
+                    <li><a href="#">AI & Innovation</a></li>
+                </ul>
             </div>
         </div>
-    </section>
-
-    <section id="expertise" class="expertise">
-        <div class="container">
-            <h2 class="section-title">Technology Expertise</h2>
-            <div class="expertise-list">
-                <span class="expertise-tag">Oracle Fusion HCM</span>
-                <span class="expertise-tag">Oracle OCI</span>
-                <span class="expertise-tag">AWS Cloud</span>
-                <span class="expertise-tag">Oracle APEX</span>
-                <span class="expertise-tag">Visual Builder Studio</span>
-                <span class="expertise-tag">SQL & PL/SQL</span>
-                <span class="expertise-tag">Python</span>
-                <span class="expertise-tag">Java</span>
-                <span class="expertise-tag">JavaScript</span>
-                <span class="expertise-tag">Web Development</span>
-                <span class="expertise-tag">Linux</span>
-                <span class="expertise-tag">Shell Scripting</span>
-                <span class="expertise-tag">Agile/Scrum</span>
-                <span class="expertise-tag">PMP</span>
-                <span class="expertise-tag">SHRM-CP</span>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Konooz Tech</h2>
-            <div class="about-content">
-                <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
-                    Konooz Tech is your gateway to expert insights and professional consulting in the evolving landscape of technology. We specialize in delivering comprehensive articles, documentation, and consulting services across Oracle technologies, cloud platforms, AI tools, and modern project management practices.
-                </p>
-                <p style="font-size: 1.1rem;">
-                    Led by an experienced HCM Applications Department Manager with deep expertise in Oracle solutions, cloud technologies, and certified in PMP and SHRM-CP, we bring together technical excellence and business acumen to help organizations and professionals thrive in the digital age.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title" style="color: white;">Let's Connect</h2>
-            <p style="margin-bottom: 2rem;">Ready to elevate your technology strategy? Get in touch for consultations and custom solutions.</p>
-            <div class="contact-form">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="service">Service Interest</label>
-                        <input type="text" id="service" name="service" placeholder="e.g., Oracle HCM, Cloud Migration, AI Tools">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-button">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
+        <div class="copyright">
             <p>&copy; 2025 Konooz Tech. All rights reserved.</p>
-            <p style="margin-top: 0.5rem;">Empower • Innovate • Thrive</p>
+            <p style="font-size: 0.85rem; margin-top: 10px;">Konooz Tech is an independent consulting practice and is not affiliated with Oracle Corporation.</p>
         </div>
     </footer>
-
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your interest! This is a demo form. In production, this would send your message to Konooz Tech.');
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
