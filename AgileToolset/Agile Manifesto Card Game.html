@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile Manifesto Learning Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .game-info {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .score {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .reset-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #5568d3;
+        }
+
+        .export-btn {
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            margin-left: 10px;
+        }
+
+        .export-btn:hover {
+            background: #0e8074;
+        }
+
+        .export-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .principles-pool {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .main-content {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .left-panel {
+            flex: 0 0 280px;
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        .pool-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-height: 100px;
+        }
+
+        .principle-card {
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: grab;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 0.85em;
+        }
+
+        .principle-card.color-1 { background: #5e72e4; }
+        .principle-card.color-2 { background: #8965e0; }
+        .principle-card.color-3 { background: #2d7dd2; }
+        .principle-card.color-4 { background: #11998e; }
+        .principle-card.color-5 { background: #2c7a7b; }
+        .principle-card.color-6 { background: #e85d75; }
+        .principle-card.color-7 { background: #d6336c; }
+        .principle-card.color-8 { background: #c85e43; }
+        .principle-card.color-9 { background: #744210; }
+        .principle-card.color-10 { background: #805ad5; }
+        .principle-card.color-11 { background: #3182ce; }
+        .principle-card.color-12 { background: #2d6a4f; }
+
+        .principle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .principle-card.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .principle-number {
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .principle-text {
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .values-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .value-column {
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-height: 400px;
+        }
+
+        .value-column.drag-over {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px dashed #667eea;
+        }
+
+        .value-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .value-description {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .drop-zone {
+            min-height: 200px;
+            padding: 10px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+
+        .drop-zone.empty::before {
+            content: "Drop principles here";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            font-style: italic;
+        }
+
+        .completion-message {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+            animation: slideIn 0.5s;
+        }
+
+        .completion-message.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1400px) {
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .left-panel {
+                flex: 1;
+                width: 100%;
+                position: static;
+                max-height: none;
+            }
+            
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Agile Manifesto Learning Game</h1>
+            <p class="subtitle">Match the 12 Agile Principles to the 4 Core Values</p>
+        </header>
+
+        <div class="game-info">
+            <div class="score-board">
+                <div class="score">Principles Assigned: <span id="assignedCount">0</span> / 12</div>
+                <div>
+                    <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+                    <button class="export-btn" id="exportBtn" onclick="exportAsPNG()" disabled>Export as PNG</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="principles-pool">
+                    <div class="pool-header">
+                        <span>📋 Principles Pool</span>
+                    </div>
+                    <div id="principlesPool" class="cards-container"></div>
+                </div>
+            </div>
+
+            <div class="values-grid" id="valuesGrid"></div>
+        </div>
+
+        <div id="completionMessage" class="completion-message">
+            <h2>🎉 Congratulations!</h2>
+            <p>You've successfully assigned all 12 Agile principles to the 4 core values!</p>
+            <p style="margin-top: 10px;">Your team now has a better understanding of how the principles support the Agile values.</p>
+        </div>
+    </div>
+
+    <script>
+        const agileValues = [
+            {
+                id: 1,
+                title: "Individuals and Interactions",
+                subtitle: "over processes and tools",
+                description: "People and communication are more important than rigid processes"
+            },
+            {
+                id: 2,
+                title: "Working Software",
+                subtitle: "over comprehensive documentation",
+                description: "Delivering functional software takes priority over extensive documentation"
+            },
+            {
+                id: 3,
+                title: "Customer Collaboration",
+                subtitle: "over contract negotiation",
+                description: "Working together with customers is more valuable than contract terms"
+            },
+            {
+                id: 4,
+                title: "Responding to Change",
+                subtitle: "over following a plan",
+                description: "Adaptability is more important than sticking to a fixed plan"
+            }
+        ];
+
+        const agilePrinciples = [
+            "Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.",
+            "Welcome changing requirements, even late in development. Agile processes harness change for the customer's competitive advantage.",
+            "Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale.",
+            "Business people and developers must work together daily throughout the project.",
+            "Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done.",
+            "The most efficient and effective method of conveying information to and within a development team is face-to-face conversation.",
+            "Working software is the primary measure of progress.",
+            "Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a constant pace indefinitely.",
+            "Continuous attention to technical excellence and good design enhances agility.",
+            "Simplicity--the art of maximizing the amount of work not done--is essential.",
+            "The best architectures, requirements, and designs emerge from self-organizing teams.",
+            "At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly."
+        ];
+
+        let draggedElement = null;
+        let assignedCount = 0;
+
+        function initGame() {
+            renderPrinciples();
+            renderValues();
+            updateScore();
+        }
+
+        function renderPrinciples() {
+            const pool = document.getElementById('principlesPool');
+            pool.innerHTML = '';
+            
+            agilePrinciples.forEach((principle, index) => {
+                const card = document.createElement('div');
+                card.className = `principle-card color-${index + 1}`;
+                card.draggable = true;
+                card.dataset.principleId = index;
+                card.innerHTML = `
+                    <div class="principle-number">Principle ${index + 1}</div>
+                    <div class="principle-text">${principle}</div>
+                `;
+                
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragend', handleDragEnd);
+                
+                pool.appendChild(card);
+            });
+        }
+
+        function renderValues() {
+            const grid = document.getElementById('valuesGrid');
+            grid.innerHTML = '';
+            
+            agileValues.forEach(value => {
+                const column = document.createElement('div');
+                column.className = 'value-column';
+                column.dataset.valueId = value.id;
+                column.innerHTML = `
+                    <div class="value-header">${value.title}</div>
+                    <div class="value-description">${value.subtitle}<br>${value.description}</div>
+                    <div class="drop-zone empty" data-value="${value.id}"></div>
+                `;
+                
+                const dropZone = column.querySelector('.drop-zone');
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('drop', handleDrop);
+                dropZone.addEventListener('dragleave', handleDragLeave);
+                
+                grid.appendChild(column);
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            
+            if (draggedElement) {
+                const dropZone = e.currentTarget;
+                dropZone.appendChild(draggedElement);
+                dropZone.classList.remove('empty');
+                
+                assignedCount++;
+                updateScore();
+                checkCompletion();
+                
+                draggedElement = null;
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('assignedCount').textContent = assignedCount;
+            const exportBtn = document.getElementById('exportBtn');
+            if (assignedCount === 12) {
+                exportBtn.disabled = false;
+            } else {
+                exportBtn.disabled = true;
+            }
+        }
+
+        function checkCompletion() {
+            if (assignedCount === 12) {
+                document.getElementById('completionMessage').classList.add('show');
+            }
+        }
+
+        function resetGame() {
+            assignedCount = 0;
+            document.getElementById('completionMessage').classList.remove('show');
+            renderPrinciples();
+            renderValues();
+            updateScore();
+        }
+
+        async function exportAsPNG() {
+            // Create a high-resolution canvas
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set high resolution canvas size (4K resolution for better quality)
+            const scale = 3; // 3x scale for high DPI displays
+            canvas.width = 3840 * scale;
+            canvas.height = 2160 * scale;
+            
+            // Scale context for high DPI
+            ctx.scale(scale, scale);
+            
+            const width = 3840;
+            const height = 2160;
+            
+            // Fill background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw title
+            ctx.fillStyle = '#667eea';
+            ctx.font = 'bold 72px "Segoe UI", Arial, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Agile Manifesto - Principles Mapping', width / 2, 100);
+            
+            // Get all value columns
+            const columns = document.querySelectorAll('.value-column');
+            
+            // Calculate dynamic layout for 4 columns
+            const padding = 80;
+            const gap = 60;
+            const columnWidth = (width - (2 * padding) - (3 * gap)) / 4;
+            const startX = padding;
+            const startY = 180;
+            
+            // Calculate max height needed for columns
+            let maxCardsInColumn = 0;
+            columns.forEach(column => {
+                const cards = column.querySelector('.drop-zone').querySelectorAll('.principle-card');
+                maxCardsInColumn = Math.max(maxCardsInColumn, cards.length);
+            });
+            
+            const cardHeight = 180;
+            const cardGap = 15;
+            const headerHeight = 180;
+            const columnHeight = headerHeight + (maxCardsInColumn * (cardHeight + cardGap)) + 40;
+            
+            columns.forEach((column, index) => {
+                const x = startX + (index * (columnWidth + gap));
+                const y = startY;
+                
+                // Draw column background with rounded corners
+                ctx.fillStyle = '#f8f9fa';
+                ctx.strokeStyle = '#667eea';
+                ctx.lineWidth = 4;
+                
+                // Rounded rectangle
+                const radius = 15;
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                ctx.lineTo(x + columnWidth - radius, y);
+                ctx.quadraticCurveTo(x + columnWidth, y, x + columnWidth, y + radius);
+                ctx.lineTo(x + columnWidth, y + columnHeight - radius);
+                ctx.quadraticCurveTo(x + columnWidth, y + columnHeight, x + columnWidth - radius, y + columnHeight);
+                ctx.lineTo(x + radius, y + columnHeight);
+                ctx.quadraticCurveTo(x, y + columnHeight, x, y + columnHeight - radius);
+                ctx.lineTo(x, y + radius);
+                ctx.quadraticCurveTo(x, y, x + radius, y);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                
+                // Draw value title
+                const valueHeader = column.querySelector('.value-header').textContent;
+                const valueDesc = column.querySelector('.value-description').textContent;
+                
+                ctx.fillStyle = '#667eea';
+                ctx.font = 'bold 42px "Segoe UI", Arial, sans-serif';
+                ctx.textAlign = 'center';
+                
+                // Wrap title text
+                const titleWords = valueHeader.split(' ');
+                let titleLine = '';
+                let titleY = y + 50;
+                const maxTitleWidth = columnWidth - 40;
+                
+                titleWords.forEach((word, i) => {
+                    const testLine = titleLine + word + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    if (metrics.width > maxTitleWidth && titleLine !== '') {
+                        ctx.fillText(titleLine.trim(), x + columnWidth / 2, titleY);
+                        titleLine = word + ' ';
+                        titleY += 48;
+                    } else {
+                        titleLine = testLine;
+                    }
+                });
+                ctx.fillText(titleLine.trim(), x + columnWidth / 2, titleY);
+                
+                // Draw description
+                ctx.fillStyle = '#666';
+                ctx.font = 'italic 28px "Segoe UI", Arial, sans-serif';
+                ctx.textAlign = 'center';
+                
+                const descLines = valueDesc.split('\n');
+                let descY = titleY + 40;
+                descLines.forEach(line => {
+                    ctx.fillText(line.trim(), x + columnWidth / 2, descY);
+                    descY += 32;
+                });
+                
+                // Draw horizontal separator
+                ctx.strokeStyle = '#667eea';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x + 20, y + headerHeight - 20);
+                ctx.lineTo(x + columnWidth - 20, y + headerHeight - 20);
+                ctx.stroke();
+                
+                // Draw principles in this column
+                const dropZone = column.querySelector('.drop-zone');
+                const cards = dropZone.querySelectorAll('.principle-card');
+                let cardY = y + headerHeight + 20;
+                
+                cards.forEach(card => {
+                    const principleNum = card.querySelector('.principle-number').textContent;
+                    const principleText = card.querySelector('.principle-text').textContent;
+                    const colorClass = Array.from(card.classList).find(c => c.startsWith('color-'));
+                    
+                    // Get card color
+                    const colorMap = {
+                        'color-1': '#5e72e4', 'color-2': '#8965e0', 'color-3': '#2d7dd2',
+                        'color-4': '#11998e', 'color-5': '#2c7a7b', 'color-6': '#e85d75',
+                        'color-7': '#d6336c', 'color-8': '#c85e43', 'color-9': '#744210',
+                        'color-10': '#805ad5', 'color-11': '#3182ce', 'color-12': '#2d6a4f'
+                    };
+                    
+                    const cardColor = colorMap[colorClass] || '#667eea';
+                    
+                    // Draw card with rounded corners
+                    ctx.fillStyle = cardColor;
+                    const cardRadius = 10;
+                    const cardX = x + 15;
+                    const cardWidth = columnWidth - 30;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(cardX + cardRadius, cardY);
+                    ctx.lineTo(cardX + cardWidth - cardRadius, cardY);
+                    ctx.quadraticCurveTo(cardX + cardWidth, cardY, cardX + cardWidth, cardY + cardRadius);
+                    ctx.lineTo(cardX + cardWidth, cardY + cardHeight - cardRadius);
+                    ctx.quadraticCurveTo(cardX + cardWidth, cardY + cardHeight, cardX + cardWidth - cardRadius, cardY + cardHeight);
+                    ctx.lineTo(cardX + cardRadius, cardY + cardHeight);
+                    ctx.quadraticCurveTo(cardX, cardY + cardHeight, cardX, cardY + cardHeight - cardRadius);
+                    ctx.lineTo(cardX, cardY + cardRadius);
+                    ctx.quadraticCurveTo(cardX, cardY, cardX + cardRadius, cardY);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    // Draw card text
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 28px "Segoe UI", Arial, sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(principleNum, cardX + 20, cardY + 35);
+                    
+                    ctx.font = '24px "Segoe UI", Arial, sans-serif';
+                    // Wrap principle text
+                    const maxWidth = cardWidth - 40;
+                    const words = principleText.split(' ');
+                    let line = '';
+                    let textY = cardY + 70;
+                    const lineHeight = 30;
+                    
+                    words.forEach(word => {
+                        const testLine = line + word + ' ';
+                        const metrics = ctx.measureText(testLine);
+                        if (metrics.width > maxWidth && line !== '') {
+                            ctx.fillText(line.trim(), cardX + 20, textY);
+                            line = word + ' ';
+                            textY += lineHeight;
+                        } else {
+                            line = testLine;
+                        }
+                    });
+                    ctx.fillText(line.trim(), cardX + 20, textY);
+                    
+                    cardY += cardHeight + cardGap;
+                });
+            });
+            
+            // Add footer
+            ctx.fillStyle = '#999';
+            ctx.font = '32px "Segoe UI", Arial, sans-serif';
+            ctx.textAlign = 'center';
+            const footerY = startY + columnHeight + 60;
+            ctx.fillText('Generated from Agile Manifesto Learning Game', width / 2, footerY);
+            
+            // Add timestamp
+            const now = new Date();
+            const timestamp = now.toLocaleString();
+            ctx.font = '28px "Segoe UI", Arial, sans-serif';
+            ctx.fillText(timestamp, width / 2, footerY + 40);
+            
+            // Convert to PNG and download
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'agile-principles-mapping-hd.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            }, 'image/png', 1.0);
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

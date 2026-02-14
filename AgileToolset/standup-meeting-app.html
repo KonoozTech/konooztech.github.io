@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Standup Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .date-display {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], textarea {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #38a169;
+        }
+
+        .btn-danger {
+            background: #f56565;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
+        .attendee-list {
+            display: grid;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .attendee-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .attendee-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .attendee-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .question-block {
+            margin-bottom: 12px;
+        }
+
+        .question-label {
+            font-size: 13px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .summary-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+        }
+
+        .summary-content {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .parking-item {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #ed8936;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .parking-text {
+            flex: 1;
+            color: #333;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Daily Standup Meeting Manager</h1>
+        <div class="date-display" id="dateDisplay"></div>
+
+        <div class="section">
+            <div class="section-title">👥 Attendees</div>
+            <div class="input-group">
+                <input type="text" id="attendeeName" placeholder="Enter attendee name...">
+                <button class="btn-primary" onclick="addAttendee()">Add Attendee</button>
+            </div>
+            <div class="attendee-list" id="attendeeList"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🅿️ Parking Lot <span style="font-size: 12px; font-weight: normal; color: #666;">(Off-call topics)</span></div>
+            <div class="input-group">
+                <textarea id="parkingTopic" placeholder="Enter topic to discuss later..."></textarea>
+                <button class="btn-secondary" onclick="addParkingItem()">Add Topic</button>
+            </div>
+            <div id="parkingList"></div>
+        </div>
+
+        <div class="section summary-section">
+            <div class="section-title">📋 Summary & Action Plan</div>
+            <div class="summary-content" id="summaryContent">
+                <div class="empty-state">Add attendees and their responses to generate summary</div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="generateSummary()">Generate Summary</button>
+                <button class="btn-secondary" onclick="copySummary()">Copy to Clipboard</button>
+                <button class="btn-danger" onclick="clearAll()">Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let attendees = [];
+        let parkingLot = [];
+
+        function updateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateDisplay').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        function addAttendee() {
+            const nameInput = document.getElementById('attendeeName');
+            const name = nameInput.value.trim();
+            
+            if (name === '') {
+                alert('Please enter an attendee name');
+                return;
+            }
+
+            attendees.push({
+                id: Date.now(),
+                name: name,
+                yesterday: '',
+                today: '',
+                blockers: ''
+            });
+
+            nameInput.value = '';
+            renderAttendees();
+        }
+
+        function removeAttendee(id) {
+            attendees = attendees.filter(a => a.id !== id);
+            renderAttendees();
+        }
+
+        function updateAttendeeResponse(id, field, value) {
+            const attendee = attendees.find(a => a.id === id);
+            if (attendee) {
+                attendee[field] = value;
+            }
+        }
+
+        function renderAttendees() {
+            const list = document.getElementById('attendeeList');
+            
+            if (attendees.length === 0) {
+                list.innerHTML = '<div class="empty-state">No attendees added yet</div>';
+                return;
+            }
+
+            list.innerHTML = attendees.map(attendee => `
+                <div class="attendee-card">
+                    <div class="attendee-header">
+                        <span class="attendee-name">${attendee.name}</span>
+                        <button class="btn-danger" onclick="removeAttendee(${attendee.id})">Remove</button>
+                    </div>
+                    <div class="question-block">
+                        <div class="question-label">1️⃣ What did you do yesterday?</div>
+                        <textarea 
+                            placeholder="Enter response..."
+                            oninput="updateAttendeeResponse(${attendee.id}, 'yesterday', this.value)"
+                        >${attendee.yesterday}</textarea>
+                    </div>
+                    <div class="question-block">
+                        <div class="question-label">2️⃣ What will you do today?</div>
+                        <textarea 
+                            placeholder="Enter response..."
+                            oninput="updateAttendeeResponse(${attendee.id}, 'today', this.value)"
+                        >${attendee.today}</textarea>
+                    </div>
+                    <div class="question-block">
+                        <div class="question-label">3️⃣ Any blockers or impediments?</div>
+                        <textarea 
+                            placeholder="Enter response..."
+                            oninput="updateAttendeeResponse(${attendee.id}, 'blockers', this.value)"
+                        >${attendee.blockers}</textarea>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addParkingItem() {
+            const topicInput = document.getElementById('parkingTopic');
+            const topic = topicInput.value.trim();
+            
+            if (topic === '') {
+                alert('Please enter a topic');
+                return;
+            }
+
+            parkingLot.push({
+                id: Date.now(),
+                topic: topic
+            });
+
+            topicInput.value = '';
+            renderParkingLot();
+        }
+
+        function removeParkingItem(id) {
+            parkingLot = parkingLot.filter(p => p.id !== id);
+            renderParkingLot();
+        }
+
+        function renderParkingLot() {
+            const list = document.getElementById('parkingList');
+            
+            if (parkingLot.length === 0) {
+                list.innerHTML = '<div class="empty-state">No parking lot items</div>';
+                return;
+            }
+
+            list.innerHTML = parkingLot.map(item => `
+                <div class="parking-item">
+                    <div class="parking-text">${item.topic}</div>
+                    <button class="btn-danger" onclick="removeParkingItem(${item.id})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function generateSummary() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            
+            let summary = `DAILY STANDUP SUMMARY\n`;
+            summary += `Date: ${dateStr}\n`;
+            summary += `Attendees: ${attendees.length}\n`;
+            summary += `${'='.repeat(60)}\n\n`;
+
+            if (attendees.length === 0) {
+                summary += 'No attendees recorded.\n\n';
+            } else {
+                attendees.forEach((attendee, index) => {
+                    summary += `${index + 1}. ${attendee.name.toUpperCase()}\n`;
+                    summary += `   Yesterday: ${attendee.yesterday || 'No response'}\n`;
+                    summary += `   Today: ${attendee.today || 'No response'}\n`;
+                    summary += `   Blockers: ${attendee.blockers || 'None'}\n\n`;
+                });
+            }
+
+            const blockers = attendees.filter(a => a.blockers.trim() !== '');
+            if (blockers.length > 0) {
+                summary += `${'='.repeat(60)}\n`;
+                summary += `ACTION PLAN - IMPEDIMENTS TO RESOLVE\n`;
+                summary += `${'='.repeat(60)}\n\n`;
+                blockers.forEach((attendee, index) => {
+                    summary += `${index + 1}. ${attendee.name}: ${attendee.blockers}\n`;
+                });
+                summary += `\n`;
+            }
+
+            if (parkingLot.length > 0) {
+                summary += `${'='.repeat(60)}\n`;
+                summary += `PARKING LOT - TOPICS FOR LATER DISCUSSION\n`;
+                summary += `${'='.repeat(60)}\n\n`;
+                parkingLot.forEach((item, index) => {
+                    summary += `${index + 1}. ${item.topic}\n`;
+                });
+            }
+
+            document.getElementById('summaryContent').textContent = summary;
+        }
+
+        function copySummary() {
+            const summaryText = document.getElementById('summaryContent').textContent;
+            
+            if (summaryText.includes('Add attendees')) {
+                alert('Please generate a summary first');
+                return;
+            }
+
+            navigator.clipboard.writeText(summaryText).then(() => {
+                alert('Summary copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy. Please select and copy manually.');
+            });
+        }
+
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                attendees = [];
+                parkingLot = [];
+                renderAttendees();
+                renderParkingLot();
+                document.getElementById('summaryContent').innerHTML = '<div class="empty-state">Add attendees and their responses to generate summary</div>';
+            }
+        }
+
+        updateDate();
+        renderAttendees();
+        renderParkingLot();
+    </script>
+</body>
+</html>

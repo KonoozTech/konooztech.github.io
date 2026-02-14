@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>ESVP Agile Workshop Canvas</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 10px;
+}
+
+/* ===== PAGE LAYOUT ===== */
+.page {
+    display: flex;
+    gap: 12px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===== LEFT INFO PANEL ===== */
+.left-panel {
+    width: 280px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.left-panel h3 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+.info-item {
+    background: #f9f9f9;
+    border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.info-item .icon {
+    font-size: 22px;
+}
+
+.info-item strong {
+    display: block;
+    margin-top: 4px;
+}
+
+/* ===== RIGHT CONTENT ===== */
+.right-panel {
+    flex: 1;
+    text-align: center;
+}
+
+h1 {
+    margin: 5px 0;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+/* ===== FACILITATOR PANEL ===== */
+.facilitator-panel {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 800px;
+    margin: 0 auto 10px;
+}
+
+.facilitator-panel button {
+    padding: 8px 14px;
+    margin: 5px;
+    border: none;
+    border-radius: 6px;
+    background: #1976d2;
+    color: #fff;
+    cursor: pointer;
+}
+
+.facilitator-panel button:hover {
+    background: #125aa0;
+}
+
+.status {
+    margin-top: 6px;
+    font-weight: bold;
+}
+
+/* ===== VOTING BUTTONS ===== */
+.controls {
+    margin: 10px 0;
+}
+
+.controls button {
+    padding: 10px 16px;
+    margin: 5px;
+    border-radius: 6px;
+    border: none;
+    background: #555;
+    color: #fff;
+    cursor: pointer;
+}
+
+.controls button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+/* ===== CANVAS ===== */
+.canvas-container {
+    width: min(90vw, 600px);
+    height: min(90vw, 600px);
+    margin: 10px auto;
+    background: #333;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+}
+
+/* ===== QUADRANTS ===== */
+.quadrant {
+    position: relative;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+
+.quadrant .icon {
+    font-size: 26px;
+}
+
+.quadrant .label {
+    font-size: 15px;
+}
+
+.explorer { background: #e3f2fd; }
+.shopper { background: #e8f5e9; }
+.vacationer { background: #fffde7; }
+.prisoner { background: #fdecea; }
+
+/* ===== DOTS ===== */
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    opacity: 0.85;
+}
+
+.dot.explorer { background: #1976d2; }
+.dot.shopper { background: #2e7d32; }
+.dot.vacationer { background: #f9a825; }
+.dot.prisoner { background: #c62828; }
+
+/* ===== COUNTS ===== */
+.counts {
+    display: none;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+footer {
+    font-size: 12px;
+    color: #777;
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .page {
+        flex-direction: column;
+    }
+    .left-panel {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- LEFT INFO PANEL -->
+    <div class="left-panel">
+        <h3>ESVP Model</h3>
+
+        <div class="info-item">
+            <div class="icon">🧭</div>
+            <strong>Explorer</strong>
+            Curious and open to learning new ideas.
+        </div>
+
+        <div class="info-item">
+            <div class="icon">🛒</div>
+            <strong>Shopper</strong>
+            Looking for something useful to take away.
+        </div>
+
+        <div class="info-item">
+            <div class="icon">🏖️</div>
+            <strong>Vacationer</strong>
+            Present, but focus or energy may be limited.
+        </div>
+
+        <div class="info-item">
+            <div class="icon">⛓️</div>
+            <strong>Prisoner</strong>
+            Attending because it is required.
+        </div>
+    </div>
+
+    <!-- RIGHT MAIN PANEL -->
+    <div class="right-panel">
+
+        <h1>ESVP Agile Workshop Canvas</h1>
+        <div class="subtitle">
+            Anonymous engagement check • PMI-ACP & Agile facilitation
+        </div>
+
+        <div class="facilitator-panel">
+            <strong>Facilitator Controls</strong><br>
+            <button onclick="startVoting()">Start Voting</button>
+            <button onclick="endVoting()">Close & Reveal</button>
+            <button onclick="resetBoard()">Reset</button>
+            <div class="status" id="status">Status: Waiting to start</div>
+        </div>
+
+        <div class="controls">
+            <button onclick="vote('explorer')" disabled>Explorer</button>
+            <button onclick="vote('shopper')" disabled>Shopper</button>
+            <button onclick="vote('vacationer')" disabled>Vacationer</button>
+            <button onclick="vote('prisoner')" disabled>Prisoner</button>
+        </div>
+
+        <div class="canvas-container">
+            <div class="grid">
+                <div class="quadrant explorer" id="explorer">
+                    <div class="icon">🧭</div>
+                    <div class="label">Explorer</div>
+                </div>
+                <div class="quadrant shopper" id="shopper">
+                    <div class="icon">🛒</div>
+                    <div class="label">Shopper</div>
+                </div>
+                <div class="quadrant vacationer" id="vacationer">
+                    <div class="icon">🏖️</div>
+                    <div class="label">Vacationer</div>
+                </div>
+                <div class="quadrant prisoner" id="prisoner">
+                    <div class="icon">⛓️</div>
+                    <div class="label">Prisoner</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="counts" id="counts">
+            Explorer: <span id="cExplorer">0</span> |
+            Shopper: <span id="cShopper">0</span> |
+            Vacationer: <span id="cVacationer">0</span> |
+            Prisoner: <span id="cPrisoner">0</span>
+        </div>
+
+        <footer>
+            Anonymous • No right or wrong answers • Speak with dots
+        </footer>
+
+    </div>
+</div>
+
+<script>
+let votingOpen = false;
+let voted = false;
+
+let counts = { explorer:0, shopper:0, vacationer:0, prisoner:0 };
+
+function startVoting() {
+    votingOpen = true;
+    voted = false;
+    document.getElementById("status").innerText = "Status: Voting open";
+    document.querySelectorAll(".controls button").forEach(b => b.disabled = false);
+    document.getElementById("counts").style.display = "none";
+}
+
+function endVoting() {
+    votingOpen = false;
+    document.getElementById("status").innerText = "Status: Voting closed – results revealed";
+    document.querySelectorAll(".controls button").forEach(b => b.disabled = true);
+    document.getElementById("counts").style.display = "block";
+}
+
+function vote(type) {
+    if (!votingOpen || voted) return;
+    voted = true;
+    counts[type]++;
+    updateCounts();
+    placeDot(type);
+    document.querySelectorAll(".controls button").forEach(b => b.disabled = true);
+}
+
+function placeDot(type) {
+    const q = document.getElementById(type);
+    const dot = document.createElement("div");
+    dot.className = "dot " + type;
+
+    const padding = 30;
+    dot.style.left = (Math.random() * (q.clientWidth - padding*2) + padding) + "px";
+    dot.style.top = (Math.random() * (q.clientHeight - padding*2) + padding) + "px";
+
+    q.appendChild(dot);
+}
+
+function updateCounts() {
+    document.getElementById("cExplorer").innerText = counts.explorer;
+    document.getElementById("cShopper").innerText = counts.shopper;
+    document.getElementById("cVacationer").innerText = counts.vacationer;
+    document.getElementById("cPrisoner").innerText = counts.prisoner;
+}
+
+function resetBoard() {
+    document.querySelectorAll(".dot").forEach(d => d.remove());
+    counts = { explorer:0, shopper:0, vacationer:0, prisoner:0 };
+    updateCounts();
+    document.getElementById("status").innerText = "Status: Waiting to start";
+    document.getElementById("counts").style.display = "none";
+}
+</script>
+
+</body>
+</html>
